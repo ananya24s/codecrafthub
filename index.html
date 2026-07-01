@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeCraftHub: Your Learning Management Platform</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            color: #f5f5f5;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(139, 92, 246, 0.1);
+            border-bottom: 2px solid #8B5CF6;
+            margin-bottom: 30px;
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            color: #8B5CF6;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            color: #a0a0a0;
+            font-size: 1.1rem;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .card h2 {
+            color: #8B5CF6;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #d0d0d0;
+        }
+
+        .form-group label span {
+            color: #EF4444;
+        }
+
+        input, textarea, select {
+            padding: 12px 15px;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            color: #f5f5f5;
+            font-size: 1rem;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            outline: none;
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.2);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        select {
+            cursor: pointer;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: #8B5CF6;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: #7c3aed;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-success {
+            background: #F59E0B;
+            color: #1a1a2e;
+        }
+
+        .btn-success:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-danger {
+            background: #EF4444;
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #f5f5f5;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .form-actions {
+            grid-column: 1 / -1;
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .courses-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 25px;
+        }
+
+        .course-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .course-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.2);
+        }
+
+        .course-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+
+        .course-header h3 {
+            color: #f5f5f5;
+            font-size: 1.25rem;
+            flex: 1;
+            margin-right: 10px;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .status-not-started {
+            background: rgba(239, 68, 68, 0.2);
+            color: #fca5a5;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .status-in-progress {
+            background: rgba(245, 158, 11, 0.2);
+            color: #fcd34d;
+            border: 1px solid rgba(245, 158, 11, 0.3);
+        }
+
+        .status-completed {
+            background: rgba(34, 197, 94, 0.2);
+            color: #86efac;
+            border: 1px solid rgba(34, 197, 94, 0.3);
+        }
+
+        .course-description {
+            color: #a0a0a0;
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+
+        .course-meta {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 15px;
+            flex-wrap: wrap;
+        }
+
+        .course-meta span {
+            color: #8B5CF6;
+            font-size: 0.9rem;
+        }
+
+        .course-meta span::before {
+            margin-right: 5px;
+        }
+
+        .course-actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .course-actions .btn {
+            flex: 1;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: #1a1a2e;
+            border-radius: 12px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            border: 2px solid #8B5CF6;
+            transform: scale(0.9);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: scale(1);
+        }
+
+        .modal h2 {
+            color: #8B5CF6;
+            margin-bottom: 25px;
+        }
+
+        .modal .form-group {
+            margin-bottom: 20px;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .loading-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid rgba(139, 92, 246, 0.3);
+            border-top-color: #8B5CF6;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 8px;
+            color: white;
+            font-weight: 500;
+            z-index: 3000;
+            transform: translateX(120%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.active {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: #22c55e;
+        }
+
+        .toast-error {
+            background: #EF4444;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: #a0a0a0;
+        }
+
+        .empty-state svg {
+            width: 80px;
+            height: 80px;
+            margin-bottom: 20px;
+            opacity: 0.5;
+        }
+
+        .empty-state h3 {
+            color: #8B5CF6;
+            margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.75rem;
+            }
+
+            .container {
+                padding: 10px;
+            }
+
+            .card {
+                padding: 15px;
+            }
+
+            .courses-container {
+                grid-template-columns: 1fr;
+            }
+
+            .form-actions {
+                flex-direction: column;
+            }
+
+            .modal {
+                padding: 20px;
+            }
+
+            .course-header {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .toast {
+                right: 15px;
+                left: 15px;
+                bottom: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>CodeCraftHub</h1>
+        <p>Your Learning Management Platform</p>
+    </header>
+
+    <div class="container">
+        <div class="card">
+            <h2>Add New Course</h2>
+            <form id="courseForm">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="name">Course Name <span>*</span></label>
+                        <input type="text" id="name" name="name" required placeholder="Enter course name">
+                    </div>
+                    <div class="form-group">
+                        <label for="target_date">Target Date <span>*</span></label>
+                        <input type="date" id="target_date" name="target_date" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="status">Status <span>*</span></label>
+                        <select id="status" name="status" required>
+                            <option value="Not Started">Not Started</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Completed">Completed</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="description">Description <span>*</span></label>
+                        <textarea id="description" name="description" required placeholder="Enter course description"></textarea>
+                    </div>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">
+                        <span>Add Course</span>
+                    </button>
+                    <button type="reset" class="btn btn-secondary">Clear Form</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card">
+            <h2>Your Courses</h2>
+            <div id="coursesContainer">
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.138 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.862 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.862 5 16.5 5c1.637 0 3.168.477 4.5 1.253v13C19.832 18.477 18.137 18 16.5 18c-1.637 0-3.168.477-4.5 1.253"></path>
+                    </svg>
+                    <h3>No Courses Yet</h3>
+                    <p>Add your first course using the form above</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div id="editModal" class="modal-overlay">
+        <div class="modal">
+            <h2>Edit Course</h2>
+            <form id="editForm">
+                <input type="hidden" id="edit_id">
+                <div class="form-group">
+                    <label for="edit_name">Course Name <span>*</span></label>
+                    <input type="text" id="edit_name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_description">Description <span>*</span></label>
+                    <textarea id="edit_description" name="description" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="edit_target_date">Target Date <span>*</span></label>
+                    <input type="date" id="edit_target_date" name="target_date" required>
+                </div>
+                <div class="form-group">
+                    <label for="edit_status">Status <span>*</span></label>
+                    <select id="edit_status" name="status" required>
+                        <option value="Not Started">Not Started</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Completed">Completed</option>
+                    </select>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeEditModal()">Cancel</button>
+                    <button type="submit" class="btn btn-success">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div id="loadingOverlay" class="loading-overlay">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast" class="toast"></div>
+
+    <script>
+        const API_URL = 'http://localhost:5000/api/courses';
+
+        // State
+        let courses = [];
+
+        // DOM Elements
+        const courseForm = document.getElementById('courseForm');
+        const editForm = document.getElementById('editForm');
+        const coursesContainer = document.getElementById('coursesContainer');
+        const editModal = document.getElementById('editModal');
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const toast = document.getElementById('toast');
+
+        // Utility Functions
+        function showLoading() {
+            loadingOverlay.classList.add('active');
+        }
+
+        function hideLoading() {
+            loadingOverlay.classList.remove('active');
+        }
+
+        function showToast(message, type = 'success') {
+            toast.textContent = message;
+            toast.className = `toast toast-${type} active`;
+            setTimeout(() => {
+                toast.classList.remove('active');
+            }, 3000);
+        }
+
+        function formatDate(dateString) {
+            if (!dateString) return 'N/A';
+            const options = { year: 'numeric', month: 'short', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString('en-US', options);
+        }
+
+        function getStatusClass(status) {
+            const statusMap = {
+                'Not Started': 'status-not-started',
+                'In Progress': 'status-in-progress',
+                'Completed': 'status-completed'
+            };
+            return statusMap[status] || 'status-not-started';
+        }
+
+        // API Functions
+        async function fetchCourses() {
+            showLoading();
+            try {
+                const response = await fetch(API_URL);
+                if (!response.ok) throw new Error('Failed to fetch courses');
+                courses = await response.json();
+                renderCourses();
+            } catch (error) {
+                console.error('Error fetching courses:', error);
+                showToast('Failed to load courses. Please check if the server is running.', 'error');
+                renderEmptyState();
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function createCourse(courseData) {
+            showLoading();
+            try {
+                const response = await fetch(API_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(courseData),
+                });
+                if (!response.ok) throw new Error('Failed to create course');
+                const newCourse = await response.json();
+                courses.push(newCourse);
+                renderCourses();
+                showToast('Course added successfully!');
+                courseForm.reset();
+            } catch (error) {
+                console.error('Error creating course:', error);
+                showToast('Failed to add course. Please try again.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function updateCourse(id, courseData) {
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(courseData),
+                });
+                if (!response.ok) throw new Error('Failed to update course');
+                const updatedCourse = await response.json();
+                const index = courses.findIndex(c => c.id === id);
+                if (index !== -1) {
+                    courses[index] = updatedCourse;
+                }
+                renderCourses();
+                closeEditModal();
+                showToast('Course updated successfully!');
+            } catch (error) {
+                console.error('Error updating course:', error);
+                showToast('Failed to update course. Please try again.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function deleteCourse(id) {
+            if (!confirm('Are you sure you want to delete this course?')) return;
+
+            showLoading();
+            try {
+                const response = await fetch(`${API_URL}/${id}`, {
+                    method: 'DELETE',
+                });
+                if (!response.ok) throw new Error('Failed to delete course');
+                courses = courses.filter(c => c.id !== id);
+                renderCourses();
+                showToast('Course deleted successfully!');
+            } catch (error) {
+                console.error('Error deleting course:', error);
+                showToast('Failed to delete course. Please try again.', 'error');
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Render Functions
+        function renderCourses() {
+            if (courses.length === 0) {
+                renderEmptyState();
+                return;
+            }
+
+            coursesContainer.innerHTML = `
+                <div class="courses-container">
+                    ${courses.map(course => `
+                        <div class="course-card">
+                            <div class="course-header">
+                                <h3>${escapeHtml(course.name)}</h3>
+                                <span class="status-badge ${getStatusClass(course.status)}">${escapeHtml(course.status)}</span>
+                            </div>
+                            <p class="course-description">${escapeHtml(course.description)}</p>
+                            <div class="course-meta">
+                                <span>Target: ${formatDate(course.target_date)}</span>
+                                <span>Created: ${formatDate(course.created_at)}</span>
+                            </div>
+                            <div class="course-actions">
+                                <button class="btn btn-success" onclick="openEditModal(${course.id})">Edit</button>
+                                <button class="btn btn-danger" onclick="deleteCourse(${course.id})">Remove</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function renderEmptyState() {
+            coursesContainer.innerHTML = `
+                <div class="empty-state">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 6.253v13m0-13C10.832 5.477 9.138 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.862 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.862 5 16.5 5c1.637 0 3.168.477 4.5 1.253v13C19.832 18.477 18.137 18 16.5 18c-1.637 0-3.168.477-4.5 1.253"></path>
+                    </svg>
+                    <h3>Start Your Learning Journey</h3>
+                    <p>Add your first course using the form above</p>
+                </div>
+            `;
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text || '';
+            return div.innerHTML;
+        }
+
+        // Modal Functions
+        function openEditModal(id) {
+            const course = courses.find(c => c.id === id);
+            if (!course) return;
+
+            document.getElementById('edit_id').value = course.id;
+            document.getElementById('edit_name').value = course.name || '';
+            document.getElementById('edit_description').value = course.description || '';
+            document.getElementById('edit_target_date').value = course.target_date || '';
+            document.getElementById('edit_status').value = course.status || 'Not Started';
+
+            editModal.classList.add('active');
+        }
+
+        function closeEditModal() {
+            editModal.classList.remove('active');
+            editForm.reset();
+        }
+
+        // Event Listeners
+        courseForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(courseForm);
+            const courseData = {
+                name: formData.get('name'),
+                description: formData.get('description'),
+                target_date: formData.get('target_date'),
+                status: formData.get('status'),
+            };
+
+            // Validation
+            if (!courseData.name.trim() || !courseData.description.trim() || !courseData.target_date) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            createCourse(courseData);
+        });
+
+        editForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const id = document.getElementById('edit_id').value;
+            const formData = new FormData(editForm);
+            const courseData = {
+                name: formData.get('name'),
+                description: formData.get('description'),
+                target_date: formData.get('target_date'),
+                status: formData.get('status'),
+            };
+
+            // Validation
+            if (!courseData.name.trim() || !courseData.description.trim() || !courseData.target_date) {
+                showToast('Please fill in all required fields', 'error');
+                return;
+            }
+
+            updateCourse(parseInt(id), courseData);
+        });
+
+        // Close modal on outside click
+        editModal.addEventListener('click', (e) => {
+            if (e.target === editModal) {
+                closeEditModal();
+            }
+        });
+
+        // Close modal on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && editModal.classList.contains('active')) {
+                closeEditModal();
+            }
+        });
+
+        // Initialize
+        fetchCourses();
+    </script>
+</body>
+</html>

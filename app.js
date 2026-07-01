@@ -2,9 +2,11 @@
 const express = require('express');
 const fs = require('fs');
 const path = require('path');
+const cors = require('cors');
 
 // Initialize Express app
 const app = express();
+app.use(cors());
 const PORT = 5000;
 
 // Middleware to parse JSON bodies
